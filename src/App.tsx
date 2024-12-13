@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { observer } from "mobx-react";
 import { Invoice } from "./models/Invoice";
 import { Instance } from "mobx-state-tree";
+import Item from "./components/Item";
 
 type InvoiceInstance = Instance<typeof Invoice>;
 
@@ -69,6 +70,11 @@ export const App = observer(({ invoice }: { invoice: InvoiceInstance }) => {
           </button>
         </form>
       </div>
+      <ul>
+      {invoice.ItemList.items.map((item, i) => (
+          <Item item={item} key={i} />
+        ))}
+      </ul>
     </div>
   );
 });

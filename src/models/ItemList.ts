@@ -1,4 +1,4 @@
-import { t } from "mobx-state-tree";
+import { Instance, t } from "mobx-state-tree";
 import Item from "./Item";
 
 const ItemList = t
@@ -17,14 +17,17 @@ const ItemList = t
         price: parseFloat(item.price as string),
       });
     },
-    remove(item: typeof Item.Type) {
-      self.items.splice(self.items.indexOf(item), 1);
+    remove(item: Instance<typeof Item>) {
+      const index = self.items.indexOf(item);
+      if (index !== -1) {
+        self.items.splice(index, 1);
+      }
     },
   }))
   .views((self) => ({
     total() {
-        return self.items.reduce((sum,item)=>sum+Item.total(),0)
-      },
+      return self.items.reduce((sum, item) => sum + item.total(), 0);
+    },
   }));
 
 export default ItemList;
